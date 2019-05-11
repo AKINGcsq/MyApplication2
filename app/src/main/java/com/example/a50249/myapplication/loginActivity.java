@@ -38,27 +38,30 @@ public class loginActivity extends Activity {
             }
         });
 
-        Button log = (Button)findViewById(R.id.bt_login_login);
+        Button log = findViewById(R.id.bt_login_login);
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText name = (EditText) findViewById(R.id.et_login_username);
-                EditText passw = (EditText)findViewById(R.id.et_login_password);
+                EditText name = findViewById(R.id.et_login_username);
+                EditText passw = findViewById(R.id.et_login_password);
                 String pass = passw.getText().toString();
                 String username = name.getText().toString();
                 String spP = findPassword(username);
                 if (TextUtils.isEmpty(username)){
                     Toast.makeText(loginActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
-                    return;
+//                    return;
                 } else if (TextUtils.isEmpty(pass)){
                     Toast.makeText(loginActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
-                    return;
-                }else if(!spP.equals(MD5Utils.md5(pass))) {
+//                    return;
+                }else if(spP!=null&&!TextUtils.isEmpty(spP)&&!spP.equals(MD5Utils.md5(pass))) {
                     Toast.makeText(loginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
-                    return;
-                }else{
+//                    return;
+                }else if((spP.equals(MD5Utils.md5(pass)))){
                     Intent intent = new Intent(loginActivity.this, mainActivity.class);
                     startActivity(intent);
+                } else{
+                    Toast.makeText(loginActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
+//                    return;
                 }
             }
         });
